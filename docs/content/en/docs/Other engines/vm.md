@@ -45,6 +45,7 @@ right library to use.
 
 1. Adapt your `pubspec.yaml`: You can remove the `moor_flutter` dependency and instead
    add both the `moor` and `moor_ffi` dependencies:
+   
    ```yaml
    dependencies:
      moor: ^2.0.0
@@ -52,17 +53,24 @@ right library to use.
    dev_dependencies:
      moor_generator: ^2.0.0
    ```
+   
    Note: If you were using `FlutterQueryExecutor.inDatabasesFolder`, you should also depend
    on `path_provider`. For desktop support of that library, see [this readme](https://github.com/google/flutter-desktop-embedding/tree/master/plugins/flutter_plugins).
+   
 2. Adapt your imports:
+
   - In the file where you created a `FlutterQueryExecutor`, replace the `moor_flutter` import
     with `package:moor_ffi/moor_ffi.dart`.
   - In all other files where you might have import `moor_flutter`, just import `package:moor/moor.dart`.
+  
 3. Replace the executor. This code:
+
    ```dart
    FlutterQueryExecutor.inDatabaseFolder(path: 'db.sqlite')
    ```
+   
    can now be written as
+   
    ```dart
    import 'package:path_provider/path_provider.dart';
    import 'package:path/path.dart' as p;
@@ -73,6 +81,7 @@ right library to use.
        return VmDatabase(file);
    })
    ```
+   
    __Important warning__: `FlutterQueryExecutor.inDatabaseFolder` may use a different folder on Android, which
    can cause data loss. This documentation will provide a better migration guide once `moor_ffi` is stable.
    Please create an issue if you need guidance on this soon.
